@@ -1,0 +1,109 @@
+{
+  "name": "on-safe",
+  "productName": "on-safe",
+  "version": "1.0.0",
+  "description": "Electron app for manage backup",
+  "main": ".webpack/main",
+  "scripts": {
+    "start": "electron-forge start",
+    "debug": "electron-forge start --inspect-electron",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "eslint --ext .ts,.tsx ."
+  },
+  "keywords": [],
+  "author": {
+    "name": "mtttia",
+    "email": "tia369852@gmail.com"
+  },
+  "license": "MIT",
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "on_safe"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ],
+      "plugins": [
+        [
+          "@electron-forge/plugin-webpack",
+          {
+            "mainConfig": "./webpack.main.config.js",
+            "renderer": {
+              "nodeIntegration": true,
+              "config": "./webpack.renderer.config.js",
+              "entryPoints": [
+                {
+                  "html": "./src/client/index.html",
+                  "js": "./src/client/renderer.ts",
+                  "name": "main_window",
+                  "preload": {
+                    "js": "./src/preload.ts"
+                  }
+                },
+                {
+                  "html": "./src/server/index.html",
+                  "js": "./src/server/server.ts",
+                  "name": "server_window",
+                  "preload": {
+                    "js": "./src/preload.ts"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      ]
+    }
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.67",
+    "@electron-forge/maker-deb": "^6.0.0-beta.67",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.67",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.67",
+    "@electron-forge/maker-zip": "^6.0.0-beta.67",
+    "@electron-forge/plugin-webpack": "^6.0.0-beta.67",
+    "@types/node-cron": "^3.0.4",
+    "@types/rsync": "^0.4.32",
+    "@typescript-eslint/eslint-plugin": "^5.40.1",
+    "@typescript-eslint/parser": "^5.40.1",
+    "@vercel/webpack-asset-relocator-loader": "^1.7.3",
+    "css-loader": "^6.7.1",
+    "electron": "21.1.1",
+    "eslint": "^8.25.0",
+    "eslint-plugin-import": "^2.26.0",
+    "fork-ts-checker-webpack-plugin": "^7.2.13",
+    "node-loader": "^2.0.0",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.4.1",
+    "typescript": "~4.5.4"
+  },
+  "dependencies": {
+    "@electron/remote": "^2.0.8",
+    "bootstrap": "^5.2.2",
+    "electron-squirrel-startup": "^1.0.0",
+    "fs-extra": "^10.1.0",
+    "nock": "^13.2.9",
+    "node-cron": "^3.0.2",
+    "rsync": "^0.6.1"
+  }
+}
