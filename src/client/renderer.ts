@@ -26,13 +26,28 @@
  * ```
  */
 
-import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
 
 import { ipcRenderer } from 'electron'
-import {ClientEngine, FILE_PATH} from '../class/FileManager'
+import {dialog} from '@electron/remote'
+import { ClientEngine, FILE_PATH, OnSafeEngine } from '../class/FileManager'
+import 'line-awesome/dist/line-awesome/css/line-awesome.min.css';
+import {BackupNotifier, Modal} from '../class/Modal';
 
-document.getElementById('form-base').addEventListener('submit', (e) => {
+document.getElementById('btnBackup').addEventListener('click', (e) =>
+{
+  console.log('orca madonna');
+  
+  let from = (document.getElementById('txtSource') as HTMLInputElement).value;
+  let to = (document.getElementById('txtDestination') as HTMLInputElement).value;
+  let banner = new BackupNotifier(from, to)
+  banner.draw();
+  OnSafeEngine.liveBackup(from, to, false).then(()=>banner.destroy())
+  
+})
+
+document.getElementById('form-central').addEventListener('submit', (e) => {
   e.preventDefault();
   try {
     let source = (document.getElementById('txtSource') as HTMLInputElement).value;
@@ -47,3 +62,21 @@ document.getElementById('form-base').addEventListener('submit', (e) => {
     console.log(er);
   }
 })
+
+
+//bind source folder
+let srcFolders = document.getElementsByClassName('src-folder');
+for (let i = 0; i < srcFolders.length; i++)
+{
+  srcFolders[i].addEventListener('click', async function (e)
+  {
+    let path = await dialog.showOpenDialog({
+      properties: ['openDirectory']      
+    })
+    
+    if (path.filePaths.length < 1) return;
+
+    let iel = (document.getElementById(srcFolders[i].getAttribute('data-source')) as HTMLInputElement)
+    iel.value = path.filePaths[0];
+  })
+}

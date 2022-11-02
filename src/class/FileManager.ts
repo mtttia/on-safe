@@ -212,22 +212,41 @@ export class OnSafeEngine{
   {
     document.dispatchEvent(event_before)
     const from = this.setting.from;
-    const to = this.setting.to;
-    const start = new Date();  
-    ensureDirSync(from);
-    ensureDirSync(to);
-    copySync(from, to)
+    const to = this.setting.to;   
+    OnSafeEngine.backupEngine(from, to, true)
     document.dispatchEvent(event_after)
-    // this.copyDir((error: Error, code: number) => {
-    //   let err = error ? error.message : 'ok'
-    //   if (err)
-    //   {
-    //     document.dispatchEvent(event_error)
-    //   }
-    //   document.dispatchEvent(event_after)
-    //   let log = new Log(from, to, start, code, err);
-    //   log.save()
-    // })
+  }
+
+  static liveBackup(from: string, to: string, saveLog: boolean = true)
+  {
+    return new Promise((r, e) =>
+    {
+      this.backupEngine(from, to, saveLog)
+      r(0)
+    })
+  }
+
+  static backupEngine(from: string, to: string, saveLog:boolean = true)
+  {
+    const start = new Date();
+    let code = 200;
+    let err = 'ok';
+    try
+    {
+      ensureDirSync(from);
+      ensureDirSync(to);
+      copySync(from, to)
+      document.dispatchEvent(event_after)
+    } catch (ex)
+    {
+      err = ex
+      code = 500;
+    }    
+    if (saveLog)
+    {
+      let log = new Log(from, to, start, code, err);
+      log.save()
+    }
   }
 
   /**
@@ -242,7 +261,6 @@ export class OnSafeEngine{
       ensureDirSync(this.setting.from);
       ensureDirSync(this.setting.to);
       copySync(this.setting.from, this.setting.to)
-      log('done')
       callback(null, 200)
     } catch (ex)
     {

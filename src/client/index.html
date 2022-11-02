@@ -6,20 +6,34 @@
 
   </head>
   <body>
-    <form id="form-base">
-      <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="txtSource" placeholder="Source" required>
-        <label for="floatingInput">Source</label>
+    <div id="banner"></div>
+    <div id="root">
+      <div id="form-central">
+        <h1 class="os-h1">Il mio backup</h1>
+        <p class="os-p-home">dalla cartella</p>
+        <div class="os-f-inline">
+          <input type="text" class="os-input" id="txtSource" placeholder="Source" required>
+          <i class="las la-folder os-button icon mx-2 src-folder" data-source="txtSource"></i>
+        </div>
+        <i class="las la-arrow-down mb-3 mt-3 os-arrow"></i>
+        <p class="os-p-home">alla cartella</p>
+        
+        <div class="os-f-inline">
+          <input type="text" class="os-input" id="txtDestination" placeholder="Destination" required>
+          <i class="las la-folder os-button icon mx-2 src-folder" data-source="txtDestination"></i>
+        </div>
+        <div class="mt-5 os-btn-container">
+          <button class="os-button" type="button" id="btnProgrammato">PROGRAMMATO</button>
+          <button class="os-button" type="button" id="btnBackup">BACKUP</button>
+        </div>
       </div>
-      <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="txtDestination" placeholder="Destination" required>
-        <label for="floatingInput">Destination</label>
-      </div>
-      <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="txtCronjob" placeholder="* * * * * *" required>
-        <label for="floatingInput">Cronjob</label>
-      </div>
-      <button class="btn btn-primary" type="submit" >INIZIA IL BACKUP</button>
-    </form>
+    </div>
+    <div id="fuck-body"></div>
   </body>
 </html>
+
+<!-- <i class="las la-arrow-down mb-3"></i>
+<div class="form-floating mb-3">
+  <input type="text" class="form-control" id="txtCronjob" placeholder="* * * * * *" required>
+  <label for="floatingInput">Cronjob</label>
+</div> -->

@@ -87,3 +87,10 @@ typings/
 
 # Electron-Forge
 out/
+
+# typescript out dir
+dist/
+
+#system file
+db.json
+config.json

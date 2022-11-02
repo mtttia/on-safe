@@ -30,7 +30,6 @@ const createMainWindow = (): void => {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       nodeIntegration: true,
       contextIsolation: false,
-      
     },
   });
 
@@ -46,7 +45,7 @@ const createMainWindow = (): void => {
 const createServerWindow = (): void => {
   //create server window
   serverWindow = new BrowserWindow({
-    show: true,
+    show: false,
     webPreferences: {
       preload: SERVER_WINDOW_PRELOAD_WEBPACK_ENTRY,
       contextIsolation: false,
@@ -114,3 +113,4 @@ ipcMain.on('logger', (e, args) => {
   console.log('server [' + cNum + '] => ', args);
   cNum++
 })
+
